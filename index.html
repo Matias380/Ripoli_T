@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Café Tarot con Charly</title>
+  <meta name="description" content="Lecturas de tarot con Victor Ripoli. Un café, las cartas y una conversación honesta.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f1ea;
+      --surface: #efe7dc;
+      --text: #2b2420;
+      --muted: #7a6d63;
+      --accent: #8a5a3c;
+      --line: #dccfc0;
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", system-ui, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #1b1714; --surface: #241f1b; --text: #eee5da;
+        --muted: #a89a8d; --accent: #d1a07c; --line: #3a322c;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #1b1714; --surface: #241f1b; --text: #eee5da;
+      --muted: #a89a8d; --accent: #d1a07c; --line: #3a322c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 0;
+    }
+    .logo { font-family: var(--serif); font-size: 1.35rem; text-decoration: none; letter-spacing: .02em; }
+    nav ul { list-style: none; display: flex; gap: 28px; font-size: .85rem; }
+    nav ul a { text-decoration: none; color: var(--muted); transition: color .2s; }
+    nav ul a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 96px 0 112px; text-align: center; }
+    .symbol { font-size: 1.6rem; color: var(--accent); letter-spacing: .6em; margin-bottom: 32px; }
+    h1 {
+      font-family: var(--serif); font-weight: 400;
+      font-size: clamp(2.6rem, 8vw, 4.4rem); line-height: 1.05; letter-spacing: -.01em;
+    }
+    h1 em { color: var(--accent); }
+    .hero p { color: var(--muted); max-width: 440px; margin: 28px auto 44px; font-size: 1.05rem; }
+    .btn {
+      display: inline-block; padding: 14px 34px;
+      border: 1px solid var(--text); border-radius: 999px;
+      text-decoration: none; font-size: .9rem; letter-spacing: .04em;
+      transition: background .25s, color .25s;
+    }
+    .btn:hover { background: var(--text); color: var(--bg); }
+
+    /* Sections */
+    section { padding: 88px 0; border-top: 1px solid var(--line); }
+    .label {
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .22em;
+      color: var(--accent); margin-bottom: 18px;
+    }
+    h2 { font-family: var(--serif); font-weight: 400; font-size: 2.2rem; line-height: 1.2; margin-bottom: 24px; }
+    section p { color: var(--muted); }
+    section p + p { margin-top: 16px; }
+
+    /* Services */
+    .services { list-style: none; margin-top: 40px; }
+    .services li {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
+      padding: 24px 0; border-bottom: 1px solid var(--line);
+    }
+    .services li:first-child { border-top: 1px solid var(--line); }
+    .services h3 { font-family: var(--serif); font-weight: 500; font-size: 1.35rem; }
+    .services span { color: var(--muted); font-size: .9rem; display: block; }
+    .services .meta { color: var(--muted); font-size: .85rem; white-space: nowrap; }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+    .steps div { font-size: .95rem; }
+    .steps b { display: block; font-family: var(--serif); font-weight: 400; font-size: 2rem; color: var(--accent); line-height: 1; margin-bottom: 12px; }
+    .steps strong { display: block; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+    .steps p { font-size: .9rem; }
+
+    /* Gallery */
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 40px; }
+    .gallery figure {
+      position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 4px;
+      background: var(--surface);
+      display: grid; place-items: center;
+    }
+    .gallery figure::before {
+      content: attr(data-symbol); font-family: var(--serif); font-size: 2rem; color: var(--accent); opacity: .55;
+    }
+    .gallery img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s ease;
+    }
+    .gallery figure:hover img { transform: scale(1.04); }
+    .gallery-note { margin-top: 28px; font-size: .9rem; }
+    .gallery-note a { color: var(--accent); }
+
+    /* Quote */
+    .quote { text-align: center; }
+    .quote blockquote { font-family: var(--serif); font-style: italic; font-size: 1.7rem; line-height: 1.4; }
+
+    /* Contact */
+    .contact { text-align: center; }
+    .contact p { margin-bottom: 36px; }
+    .links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    footer { padding: 40px 0 56px; text-align: center; font-size: .78rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      .hero { padding: 64px 0 80px; }
+      section { padding: 64px 0; }
+      .steps { grid-template-columns: 1fr; gap: 28px; }
+      .services li { flex-direction: column; gap: 6px; }
+      .gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">Café Tarot con Charly</a>
+      <ul>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#lecturas">Lecturas</a></li>
+        <li><a href="#fotos">Fotos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero">
+      <div class="symbol">☾ ✦ ☽</div>
+      <h1>Un café,<br>las cartas<br>y <em>vos</em>.</h1>
+      <p>Lecturas de tarot con Victor Ripoli. Un espacio tranquilo para hacer preguntas y mirar tu camino con más claridad.</p>
+      <a class="btn" href="#contacto">Reservar una lectura</a>
+    </header>
+
+    <section id="sobre-mi">
+      <div class="label">Sobre mí</div>
+      <h2>Hola, soy Victor —<br>pero me dicen Charly.</h2>
+      <!-- TODO: reemplazar con la bio real de Victor -->
+      <p>Leo el tarot desde hace años como una herramienta de autoconocimiento. No se trata de adivinar el futuro, sino de abrir una conversación honesta sobre el presente y las decisiones que tenés por delante.</p>
+      <p>Cada lectura es como compartir un café: sin apuro, con escucha y con respeto por tu historia.</p>
+    </section>
+
+    <section id="lecturas">
+      <div class="label">Lecturas</div>
+      <h2>Elegí tu tirada</h2>
+      <!-- TODO: confirmar servicios, duración y precios reales -->
+      <ul class="services">
+        <li>
+          <div><h3>Pregunta puntual</h3><span>Una consulta concreta, una respuesta clara.</span></div>
+          <div class="meta">20 min</div>
+        </li>
+        <li>
+          <div><h3>Lectura general</h3><span>Amor, trabajo, salud y lo que necesites mirar.</span></div>
+          <div class="meta">45 min</div>
+        </li>
+        <li>
+          <div><h3>Lectura en profundidad</h3><span>Cruz celta y tiempo para conversar cada carta.</span></div>
+          <div class="meta">60 min</div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="fotos">
+      <div class="label">Fotos</div>
+      <h2>Momentos de café y cartas</h2>
+      <!-- Para cargar fotos: subir fotos/foto-1.jpg … foto-6.jpg (cuadradas idealmente). Si falta una, se ve el símbolo. -->
+      <div class="gallery">
+        <figure data-symbol="☾"><img src="fotos/foto-1.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+        <figure data-symbol="✦"><img src="fotos/foto-2.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+        <figure data-symbol="✶"><img src="fotos/foto-3.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+        <figure data-symbol="☽"><img src="fotos/foto-4.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+        <figure data-symbol="✧"><img src="fotos/foto-5.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+        <figure data-symbol="☉"><img src="fotos/foto-6.jpg" alt="" loading="lazy" onerror="this.remove()"></figure>
+      </div>
+      <p class="gallery-note">Más en <a href="https://www.instagram.com/cafetarotconcharly/" target="_blank" rel="noopener">@cafetarotconcharly</a></p>
+    </section>
+
+    <section>
+      <div class="label">Cómo funciona</div>
+      <h2>Simple y a tu ritmo</h2>
+      <div class="steps">
+        <div><b>01</b><strong>Escribime</strong><p>Por WhatsApp o Instagram, contame qué te gustaría consultar.</p></div>
+        <div><b>02</b><strong>Coordinamos</strong><p>Elegimos día, horario y si es presencial u online.</p></div>
+        <div><b>03</b><strong>La lectura</strong><p>Nos sentamos con las cartas y conversamos.</p></div>
+      </div>
+    </section>
+
+    <section class="quote">
+      <blockquote>“Las cartas no deciden por vos.<br>Te ayudan a ver.”</blockquote>
+    </section>
+
+    <section id="contacto" class="contact">
+      <div class="label">Contacto</div>
+      <h2>¿Tomamos un café?</h2>
+      <p>Escribime y coordinamos tu lectura.</p>
+      <div class="links">
+        <!-- TODO: poner el número real de WhatsApp (formato 549XXXXXXXXXX) -->
+        <a class="btn" href="https://wa.me/5490000000000" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn" href="https://www.instagram.com/cafetarotconcharly/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrap">© <span id="y">2026</span> Café Tarot con Charly · Victor Ripoli</div>
+  </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
